@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>สมุดเบอร์ฉุกเฉินไทย</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1A2130;
+    --ink-soft:#5B6272;
+    --paper:#FAF8F4;
+    --panel:#FFFFFF;
+    --panel-line:#E9E4D8;
+    --accent-red:#C6402E;
+    --cat-police:#2E5EAA;
+    --cat-medical:#1E8074;
+    --cat-fire:#C97A2B;
+    --cat-traffic:#5B6472;
+    --cat-utility:#6B5B95;
+    --cat-travel:#3D8361;
+    --cat-social:#B0554A;
+    --cat-gov:#8A6D1F;
+    --focus:#C6402E;
+    font-size:16px;
+  }
+  :root:not([data-theme="light"]) {
+    @media (prefers-color-scheme: dark) {
+      --ink:#F1EFE9;
+      --ink-soft:#B0AA9C;
+      --paper:#15130F;
+      --panel:#201D18;
+      --panel-line:#332F27;
+      --accent-red:#E4604C;
+      --cat-police:#7FA3E3;
+      --cat-medical:#57BBA8;
+      --cat-fire:#E5A868;
+      --cat-traffic:#A4ABB6;
+      --cat-utility:#B2A2DC;
+      --cat-travel:#78C696;
+      --cat-social:#DB988C;
+    --cat-gov:#D9B65C;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink:#F1EFE9;
+    --ink-soft:#B0AA9C;
+    --paper:#15130F;
+    --panel:#201D18;
+    --panel-line:#332F27;
+    --accent-red:#E4604C;
+    --cat-police:#7FA3E3;
+    --cat-medical:#57BBA8;
+    --cat-fire:#E5A868;
+    --cat-traffic:#A4ABB6;
+    --cat-utility:#B2A2DC;
+    --cat-travel:#78C696;
+    --cat-social:#DB988C;
+    --cat-gov:#D9B65C;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Noto Sans Thai","Chakra Petch",sans-serif;
+    line-height:1.6;
+    font-size:1.02rem;
+    -webkit-font-smoothing:antialiased;
+  }
+  .display{font-family:"Chakra Petch","Noto Sans Thai",sans-serif;}
+  a{color:inherit;}
+  button{font-family:inherit;}
+  :focus-visible{outline:2.5px solid var(--focus); outline-offset:2px;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    background:var(--paper);
+    border-bottom:1px solid var(--panel-line);
+    padding:16px 24px;
+  }
+  .topbar-inner{
+    max-width:960px; margin:0 auto;
+    display:flex; align-items:center; gap:16px;
+  }
+  .mark{
+    width:40px; height:40px; flex:0 0 auto;
+    border-radius:10px;
+    background:var(--accent-red);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .mark svg{width:21px;height:21px;}
+  .brand{
+    font-family:"Chakra Petch",sans-serif;
+    font-weight:700; font-size:1.1rem; letter-spacing:.01em;
+    white-space:nowrap;
+    display:none;
+  }
+  @media (min-width:560px){ .brand{display:block;} }
+  .search-wrap{flex:1; position:relative; min-width:0;}
+  .search-input{
+    width:100%;
+    background:var(--panel);
+    border:1.5px solid var(--panel-line);
+    border-radius:12px;
+    padding:13px 16px 13px 44px;
+    font-size:1rem;
+    color:var(--ink);
+    font-family:"Noto Sans Thai",sans-serif;
+  }
+  .search-input::placeholder{color:var(--ink-soft);}
+  .search-input:focus{outline:2.5px solid var(--focus); outline-offset:1px; border-color:transparent;}
+  .search-icon{
+    position:absolute; left:15px; top:50%; transform:translateY(-50%);
+    width:18px;height:18px; color:var(--ink-soft); pointer-events:none;
+  }
+
+  .search-input{padding-right:54px;}
+  .mic-btn{
+    position:absolute; right:6px; top:50%; transform:translateY(-50%);
+    width:40px; height:40px; border-radius:50%;
+    border:none; background:transparent; color:var(--ink-soft);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .mic-btn svg{width:20px;height:20px;}
+  .mic-btn:hover{background:var(--paper); color:var(--ink);}
+  .mic-btn.listening{background:var(--accent-red); color:#fff; animation:micPulse 1.2s ease-out infinite;}
+  @keyframes micPulse{
+    0%{box-shadow:0 0 0 0 color-mix(in srgb, var(--accent-red) 55%, transparent);}
+    100%{box-shadow:0 0 0 12px transparent;}
+  }
+  @media (prefers-reduced-motion:reduce){ .mic-btn.listening{animation:none;} }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    max-width:960px; margin:0 auto;
+    padding:26px 0 8px;
+  }
+  .hero h1{
+    font-family:"Chakra Petch",sans-serif;
+    font-weight:700;
+    font-size:clamp(1.6rem, 4vw, 2.3rem);
+    margin:0 0 10px;
+    letter-spacing:-.01em;
+    max-width:20ch;
+  }
+  .hero p{
+    margin:0 0 28px;
+    color:var(--ink-soft);
+    max-width:52ch;
+    font-size:1.02rem;
+  }
+
+  .hero-label{
+    font-size:.85rem;
+    color:var(--ink-soft);
+    font-weight:600;
+    margin-bottom:10px;
+  }
+  .hero-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+    margin-bottom:36px;
+  }
+  @media (max-width:680px){
+    .hero-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  .hero-tile{
+    background:var(--accent-red);
+    border-radius:14px;
+    padding:18px 18px 16px;
+    display:flex; flex-direction:column; gap:4px;
+    text-decoration:none;
+    color:#fff;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .hero-tile.alt{background:var(--panel);color:var(--ink);border:1.5px solid var(--cat-fire);}
+  .hero-tile.alt .num{color:var(--cat-fire);}
+  .hero-tile:hover{transform:translateY(-2px);}
+  .hero-tile:active{transform:translateY(0px);}
+  .hero-tile .num{
+    font-family:"Chakra Petch",sans-serif;
+    font-weight:700;
+    font-size:2rem;
+    letter-spacing:.01em;
+    line-height:1;
+  }
+  .hero-tile .label{
+    font-size:.84rem;
+    opacity:.94;
+    font-weight:500;
+    line-height:1.35;
+  }
+
+  /* ---------- Favorites / helper ---------- */
+  .card-wrap{position:relative; display:flex;}
+  .card-wrap .card{flex:1; min-width:0;}
+  .card-wrap .name{padding-right:38px;}
+  .fav-btn{
+    position:absolute; top:8px; right:8px; width:40px; height:40px;
+    border:none; background:transparent; border-radius:50%; cursor:pointer;
+    color:var(--ink-soft); display:flex; align-items:center; justify-content:center;
+  }
+  .fav-btn:hover{background:var(--paper); color:var(--ink);}
+  .fav-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round;}
+  .fav-btn[aria-pressed="true"]{color:#D9962A;}
+  .fav-btn[aria-pressed="true"] svg{fill:currentColor;}
+  .fav-hint{margin:0 0 14px; color:var(--ink-soft); font-size:.9rem;}
+  .add-btn, .helper-btn{
+    border:1.5px solid var(--panel-line); background:var(--panel); color:var(--ink);
+    border-radius:10px; padding:10px 16px; font-size:.92rem; font-weight:600; cursor:pointer;
+    display:inline-flex; align-items:center; gap:8px; text-decoration:none;
+  }
+  .add-btn:hover, .helper-btn:hover{border-color:var(--ink);}
+  #favGrid:not(:empty){margin-bottom:14px;}
+  .add-form{
+    margin-top:12px; padding:16px; background:var(--panel);
+    border:1px solid var(--panel-line); border-radius:14px;
+    display:grid; grid-template-columns:1fr 1fr auto; gap:10px; align-items:end;
+  }
+  @media (max-width:640px){ .add-form{grid-template-columns:1fr;} }
+  .add-form label{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-soft); font-weight:600;}
+  .add-form input{
+    padding:11px 12px; border:1.5px solid var(--panel-line); border-radius:10px;
+    background:var(--paper); color:var(--ink); font-size:1rem; font-family:inherit;
+  }
+  .add-form .save-btn{
+    background:var(--ink); color:var(--paper); border:none; border-radius:10px;
+    padding:12px 20px; font-weight:700; font-size:.95rem; cursor:pointer; font-family:inherit;
+  }
+  .form-msg{grid-column:1/-1; font-size:.84rem; color:var(--accent-red); min-height:1em;}
+
+  .helper{
+    margin:0 0 30px; background:var(--panel); border:1px solid var(--panel-line);
+    border-radius:14px; overflow:hidden;
+  }
+  .helper summary{
+    cursor:pointer; padding:16px 18px; font-weight:600; list-style:none;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .helper summary::-webkit-details-marker{display:none;}
+  .helper summary::after{content:"+"; font-size:1.4rem; color:var(--ink-soft); line-height:1;}
+  .helper[open] summary::after{content:"\2212";}
+  .helper-body{padding:0 18px 18px; font-size:.95rem;}
+  .helper-body ol{margin:0 0 10px; padding-left:1.3rem;}
+  .helper-body li{margin:4px 0;}
+  .helper-note{color:var(--ink-soft); font-size:.86rem; margin:0 0 14px;}
+  .loc-result{margin-top:14px; padding:14px; background:var(--paper); border-radius:10px; font-size:.92rem;}
+  .loc-coords{font-family:"Chakra Petch",sans-serif; font-size:1.15rem; font-weight:700; margin-bottom:4px; word-break:break-all;}
+  .loc-sub{color:var(--ink-soft); font-size:.84rem; margin-bottom:12px;}
+  .loc-actions{display:flex; gap:8px; flex-wrap:wrap;}
+  .loc-error{color:var(--accent-red);}
+
+  /* ---------- Guides ---------- */
+  .guide-grid{align-items:start;}
+  .guide{
+    flex:1; min-width:0; background:var(--panel); border:1px solid var(--panel-line);
+    border-left:4px solid var(--gc, var(--ink)); border-radius:14px; overflow:hidden;
+  }
+  .guide summary{
+    cursor:pointer; list-style:none; padding:16px 18px;
+    display:flex; align-items:center; gap:10px; font-weight:600; line-height:1.4;
+  }
+  .guide summary::-webkit-details-marker{display:none;}
+  .guide summary::after{content:"+"; margin-left:auto; font-size:1.4rem; color:var(--ink-soft); line-height:1;}
+  .guide[open] summary::after{content:"\2212";}
+  .g-tag{
+    font-size:.72rem; font-weight:600; padding:2px 9px; border-radius:999px; white-space:nowrap;
+    color:var(--gc); background:color-mix(in srgb, var(--gc) 13%, var(--panel));
+  }
+  .g-body{padding:0 18px 18px;}
+  .g-body ol{margin:0 0 10px; padding-left:1.4rem;}
+  .g-body li{margin:8px 0; font-size:.95rem; line-height:1.55;}
+  .g-note{margin:0 0 14px; font-size:.84rem; color:var(--ink-soft);}
+  .g-body .call-btn{text-decoration:none;}
+
+  /* ---------- Share ---------- */
+  .icon-btn{
+    flex:0 0 auto; width:46px; height:46px; border-radius:12px;
+    border:1.5px solid var(--panel-line); background:var(--panel); color:var(--ink);
+    display:flex; align-items:center; justify-content:center; cursor:pointer;
+  }
+  .icon-btn:hover{border-color:var(--ink);}
+  .icon-btn svg{width:20px;height:20px;}
+  dialog.share-dialog{
+    border:1px solid var(--panel-line); border-radius:18px; background:var(--panel); color:var(--ink);
+    padding:22px; width:min(92vw,380px); font-family:inherit;
+  }
+  dialog.share-dialog::backdrop{background:rgba(0,0,0,.55);}
+  .share-dialog h3{font-family:"Chakra Petch","Noto Sans Thai",sans-serif; font-size:1.15rem; margin:0 0 6px;}
+  .share-dialog p{margin:0 0 16px; color:var(--ink-soft); font-size:.92rem;}
+  .qr-box{
+    width:200px; height:200px; margin:0 auto 16px; background:#fff; border-radius:12px;
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .qr-box svg{width:100%; height:100%; display:block;}
+  .qr-fail{color:#444; font-size:.82rem; padding:14px; text-align:center;}
+  .share-actions{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;}
+  .share-actions .helper-btn{justify-content:center;}
+  .share-actions .full{grid-column:1/-1;}
+  .line-btn{background:#06C755; border-color:#06C755; color:#fff;}
+  .line-btn:hover{border-color:#06C755; opacity:.92;}
+  .share-tip{font-size:.8rem; color:var(--ink-soft); margin:0;}
+
+  /* ---------- Health card ---------- */
+  .health-card{
+    background:var(--panel); border:1px solid var(--panel-line); border-top:4px solid var(--accent-red);
+    border-radius:14px; padding:6px 18px 18px;
+  }
+  .h-row{padding:11px 0; border-bottom:1px solid var(--panel-line);}
+  .h-row:last-of-type{border-bottom:none;}
+  .h-label{font-size:.8rem; color:var(--ink-soft); font-weight:600; margin-bottom:2px;}
+  .h-val{font-size:1.05rem; white-space:pre-wrap; word-break:break-word; line-height:1.5;}
+  .big .h-val{font-size:1.35rem;}
+  .big .h-label{font-size:.9rem;}
+  .h-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;}
+  .h-actions .call-btn{flex:1 1 100%; text-decoration:none;}
+  .h-form{display:grid; gap:12px; background:var(--panel); border:1px solid var(--panel-line); border-radius:14px; padding:18px;}
+  .h-form .two{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media (max-width:560px){ .h-form .two{grid-template-columns:1fr;} }
+  .h-form label{display:flex; flex-direction:column; gap:4px; font-size:.82rem; color:var(--ink-soft); font-weight:600;}
+  .h-form input, .h-form select, .h-form textarea{
+    padding:11px 12px; border:1.5px solid var(--panel-line); border-radius:10px;
+    background:var(--paper); color:var(--ink); font-size:1rem; font-family:inherit; width:100%;
+  }
+  .h-form textarea{min-height:72px; resize:vertical;}
+  .h-privacy{font-size:.82rem; color:var(--ink-soft); margin:12px 0 0; line-height:1.55;}
+  .danger-btn{color:var(--accent-red); border-color:var(--accent-red);}
+  dialog.share-dialog.wide{width:min(94vw,520px); max-height:88vh; overflow:auto;}
+
+  /* ---------- Checklist ---------- */
+  .chk-list{list-style:none; margin:0 0 12px; padding:0;}
+  .chk-list label{
+    display:flex; align-items:flex-start; gap:12px; padding:8px 0; min-height:44px;
+    cursor:pointer; font-size:.95rem; line-height:1.5;
+  }
+  .chk-list input{
+    flex:0 0 auto; width:22px; height:22px; margin:1px 0 0; cursor:pointer;
+    accent-color:var(--gc, var(--ink));
+  }
+  .chk-list input:checked + span{color:var(--ink-soft); text-decoration:line-through;}
+  .prog-bar{height:6px; background:var(--panel-line); border-radius:99px; overflow:hidden; margin:0 0 10px;}
+  .prog-bar span{display:block; height:100%; width:0; background:var(--gc, var(--ink)); transition:width .2s ease;}
+  .prep-foot{margin-top:14px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
+  .prep-foot .fav-hint{margin:0;}
+
+  /* ---------- Tabs / nav / fab ---------- */
+  .home-links{display:flex; gap:8px; flex-wrap:wrap; margin:0 0 26px;}
+  .tab-nav{
+    position:fixed; left:0; right:0; bottom:0; z-index:60;
+    background:var(--paper); border-top:1px solid var(--panel-line);
+    padding-bottom:env(safe-area-inset-bottom, 0px);
+  }
+  .tab-nav-inner{max-width:960px; margin:0 auto; display:flex;}
+  .tab-btn{
+    flex:1; min-height:62px; border:none; background:transparent; color:var(--ink-soft);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+    font-size:.76rem; font-weight:600; cursor:pointer; font-family:inherit; padding:6px 2px;
+  }
+  .tab-btn svg{width:24px; height:24px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;}
+  .tab-btn[aria-current="page"]{color:var(--accent-red); box-shadow:inset 0 3px 0 var(--accent-red);}
+  .tab-btn[aria-current="page"] svg{stroke-width:2.2;}
+  .fab{position:fixed; right:16px; bottom:calc(78px + env(safe-area-inset-bottom, 0px)); z-index:70;}
+  .fab-btn{
+    border-radius:999px; background:var(--accent-red); color:#fff; border:none;
+    padding:12px 18px 12px 14px; display:flex; gap:8px; align-items:center;
+    font-weight:700; font-size:.95rem; box-shadow:0 6px 18px rgba(0,0,0,.28); cursor:pointer; font-family:inherit;
+  }
+  .fab-btn svg{width:18px; height:18px;}
+  .fab-menu{position:absolute; right:0; bottom:58px; display:flex; flex-direction:column; gap:8px; min-width:220px;}
+  .fab-link{
+    display:flex; justify-content:space-between; align-items:center; gap:14px;
+    background:var(--panel); border:1.5px solid var(--accent-red); border-radius:12px;
+    padding:12px 16px; text-decoration:none; color:var(--ink); font-weight:600;
+    box-shadow:0 6px 16px rgba(0,0,0,.2);
+  }
+  .fab-link b{font-family:"Chakra Petch",sans-serif; font-size:1.3rem; color:var(--accent-red);}
+
+  /* ---------- Quick jump nav ---------- */
+  .jumpnav-wrap{
+    max-width:960px; margin:0 auto;
+    padding:4px 0 6px;
+  }
+  .jumpnav{
+    display:flex; gap:8px; overflow-x:auto;
+    padding-bottom:6px;
+    scrollbar-width:thin;
+  }
+  .jumpnav::-webkit-scrollbar{height:5px;}
+  .jumpnav::-webkit-scrollbar-thumb{background:var(--panel-line); border-radius:4px;}
+  .jump-btn{
+    flex:0 0 auto;
+    border:1.5px solid var(--panel-line);
+    background:var(--panel);
+    color:var(--ink);
+    padding:9px 16px;
+    border-radius:999px;
+    font-size:.88rem;
+    font-weight:600;
+    cursor:pointer;
+    display:flex; align-items:center; gap:8px;
+    white-space:nowrap;
+    text-decoration:none;
+    transition:border-color .12s ease, background .12s ease;
+  }
+  .jump-btn .dot{width:9px;height:9px;border-radius:50%; flex:0 0 auto;}
+  .jump-btn:hover, .jump-btn.active{
+    border-color:var(--jump-color, var(--ink));
+    background:color-mix(in srgb, var(--jump-color, var(--ink)) 13%, var(--panel));
+  }
+
+  /* ---------- Content ---------- */
+  main{max-width:960px; margin:0 auto; padding:6px 24px 30px;}
+
+  .category-section{margin-top:44px; scroll-margin-top:100px;}
+  .category-head{
+    display:flex; align-items:baseline; gap:10px;
+    margin-bottom:16px;
+    padding-bottom:12px;
+    border-bottom:1px solid var(--panel-line);
+  }
+  .category-head .dot{width:11px;height:11px;border-radius:50%;flex:0 0 auto; margin-bottom:2px;}
+  .category-head h2{
+    font-family:"Chakra Petch",sans-serif;
+    font-size:1.15rem;
+    font-weight:600;
+    margin:0;
+  }
+  .category-head .count{
+    color:var(--ink-soft);
+    font-size:.85rem;
+  }
+
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+  }
+  @media (max-width:640px){ .card-grid{grid-template-columns:1fr;} }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--panel-line);
+    border-radius:14px;
+    padding:18px;
+    display:flex; flex-direction:column; gap:10px;
+    text-decoration:none;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color .12s ease, transform .12s ease;
+  }
+  .card:hover{border-color:var(--cat-color, var(--panel-line));}
+  .card:active{transform:scale(.99);}
+  .card .name{
+    font-weight:600;
+    font-size:1rem;
+    line-height:1.4;
+  }
+  .card .desc{
+    font-size:.87rem;
+    color:var(--ink-soft);
+    line-height:1.55;
+    flex:1;
+  }
+  .call-btn{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    background:var(--cat-color, var(--ink));
+    border-radius:10px;
+    padding:12px 14px;
+    font-family:"Chakra Petch",sans-serif;
+    font-weight:700;
+    font-size:1.3rem;
+    color:#fff;
+    letter-spacing:.02em;
+    transition:opacity .12s ease;
+  }
+  .call-btn svg{width:16px;height:16px; flex:0 0 auto;}
+  .card:hover .call-btn{opacity:.9;}
+
+  .empty-state{
+    text-align:center;
+    padding:70px 20px;
+    color:var(--ink-soft);
+  }
+  .empty-state .big{
+    font-family:"Chakra Petch",sans-serif;
+    font-size:1.15rem;
+    color:var(--ink);
+    margin-bottom:8px;
+    font-weight:600;
+  }
+
+  footer{
+    max-width:960px; margin:0 auto;
+    padding:24px 24px calc(120px + env(safe-area-inset-bottom, 0px));
+    color:var(--ink-soft);
+    font-size:.82rem;
+    border-top:1px solid var(--panel-line);
+    margin-top:24px;
+    line-height:1.6;
+  }
+
+  [hidden]{display:none !important;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.9 3.7 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z" fill="white"/></svg>
+    </div>
+    <div class="brand">สมุดเบอร์ฉุกเฉินไทย</div>
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="searchInput" class="search-input" type="text" placeholder="ค้นหาเบอร์ หรือชื่อหน่วยงาน" autocomplete="off">
+      <button id="micBtn" class="mic-btn" type="button" aria-label="ค้นหาด้วยเสียง" title="ค้นหาด้วยเสียง">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+      </button>
+    </div>
+    <button type="button" id="shareBtn" class="icon-btn" aria-label="แชร์เว็บนี้ให้คนในครอบครัว" title="แชร์เว็บนี้">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></svg>
+    </button>
+  </div>
+</div>
+
+<main id="mainContent">
+<div class="tab-panel" id="panel-home">
+<div class="hero">
+  <h1>เจอเหตุด่วน โทรถูกเบอร์ตั้งแต่ครั้งแรก</h1>
+  <p>รวมเบอร์สายด่วนของหน่วยงานราชการและองค์กรทั่วประเทศไทย แตะที่เบอร์เพื่อโทรออกได้ทันที</p>
+
+  <div class="hero-label">4 เบอร์ที่ควรจำไว้ก่อน</div>
+  <div class="hero-grid" id="heroGrid"></div>
+
+  <div class="hero-label">เมื่อเกิดภัยพิบัติ</div>
+  <div class="hero-grid" id="heroGrid2"></div>
+
+  <div class="home-links">
+    <button type="button" class="helper-btn" data-go="numbers">ดูเบอร์ทั้งหมด</button>
+    <button type="button" class="helper-btn" data-go="guide">คู่มือปฐมพยาบาล</button>
+    <button type="button" class="helper-btn" data-go="prep">เตรียมพร้อมภัยพิบัติ</button>
+  </div>
+
+  <details class="helper">
+    <summary>ต้องโทรแจ้งเหตุ? ดูว่าควรบอกอะไร และส่งตำแหน่งของฉัน</summary>
+    <div class="helper-body">
+      <ol>
+        <li>เกิดอะไรขึ้น (เช่น ไฟไหม้ อุบัติเหตุ น้ำท่วม คนหมดสติ)</li>
+        <li>อยู่ที่ไหน (ที่อยู่ ถนน จุดสังเกตใกล้ตัว)</li>
+        <li>มีคนบาดเจ็บหรือติดอยู่กี่คน อาการเป็นอย่างไร</li>
+        <li>ชื่อและเบอร์โทรกลับของคุณ</li>
+      </ol>
+      <p class="helper-note">พูดช้าๆ ชัดๆ และอย่าวางสายจนกว่าเจ้าหน้าที่จะบอกให้วาง</p>
+      <button type="button" class="helper-btn" id="locBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        ดูตำแหน่งของฉัน
+      </button>
+      <div id="locResult" aria-live="polite"></div>
+    </div>
+  </details>
+</div>
+
+
+</div>
+<div class="tab-panel" id="panel-numbers" hidden>
+  <div class="jumpnav-wrap"><div class="jumpnav" id="jumpNav"></div></div>
+  <div id="numList"></div>
+</div>
+<div class="tab-panel" id="panel-guide" hidden></div>
+<div class="tab-panel" id="panel-prep" hidden></div>
+<div class="tab-panel" id="panel-mine" hidden></div>
+</main>
+
+<footer>
+  ข้อมูลรวบรวมเพื่อความสะดวกในการอ้างอิง เบอร์สายด่วนของหน่วยงานอาจมีการเปลี่ยนแปลงเป็นครั้งคราว หากโทรไม่ติดหรือไม่แน่ใจ แนะนำให้ตรวจสอบกับเว็บไซต์ทางการของหน่วยงานนั้น ๆ อีกครั้ง
+</footer>
+
+<div class="fab" id="fab">
+  <div class="fab-menu" id="fabMenu" hidden>
+    <a class="fab-link" href="tel:191"><span>ตำรวจ</span><b>191</b></a>
+    <a class="fab-link" href="tel:199"><span>ดับเพลิง / กู้ภัย</span><b>199</b></a>
+    <a class="fab-link" href="tel:1669"><span>รถพยาบาล</span><b>1669</b></a>
+  </div>
+  <button type="button" class="fab-btn" id="fabBtn" aria-expanded="false" aria-controls="fabMenu">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8c1.4 2.9 3.7 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z"/></svg>
+    โทรด่วน
+  </button>
+</div>
+
+<nav class="tab-nav" aria-label="เมนูหลัก">
+  <div class="tab-nav-inner">
+    <button type="button" class="tab-btn" data-tab="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>หน้าแรก</button>
+    <button type="button" class="tab-btn" data-tab="numbers"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.9 3.7 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1z"/></svg>เบอร์โทร</button>
+    <button type="button" class="tab-btn" data-tab="guide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v17H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 21.5V4.5"/></svg>คู่มือ</button>
+    <button type="button" class="tab-btn" data-tab="prep"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M3.5 6l1 1 2-2M3.5 12l1 1 2-2M3.5 18l1 1 2-2"/></svg>เตรียมพร้อม</button>
+    <button type="button" class="tab-btn" data-tab="mine"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>ของฉัน</button>
+  </div>
+</nav>
+
+<dialog class="share-dialog wide" id="healthDialog" aria-labelledby="healthDlgTitle">
+  <h3 id="healthDlgTitle">บัตรข้อมูลสุขภาพฉุกเฉิน</h3>
+  <div id="healthBig" class="big"></div>
+  <div class="share-actions" style="margin-top:14px"><button type="button" class="helper-btn full" id="healthClose">ปิด</button></div>
+</dialog>
+
+<dialog class="share-dialog" id="shareDialog" aria-labelledby="shareTitle">
+  <h3 id="shareTitle">ส่งให้คนในครอบครัว</h3>
+  <p>ให้คนใกล้ตัวมีเบอร์ฉุกเฉินติดเครื่องไว้ก่อนเกิดเหตุ สแกน QR หรือส่งลิงก์ได้เลย</p>
+  <div class="qr-box" id="qrBox"></div>
+  <div class="share-actions">
+    <button type="button" class="helper-btn full" id="shareNative" hidden>แชร์...</button>
+    <a class="helper-btn line-btn" id="shareLine" href="#" target="_blank" rel="noopener">ส่งทาง LINE</a>
+    <button type="button" class="helper-btn" id="shareCopy">คัดลอกลิงก์</button>
+    <button type="button" class="helper-btn full" id="shareClose">ปิด</button>
+  </div>
+  <p class="share-tip">เคล็ดลับ: เปิดเว็บนี้ในเบราว์เซอร์ แล้วเลือก "เพิ่มลงหน้าจอโฮม" เพื่อเปิดได้เร็วเหมือนแอปตอนฉุกเฉิน</p>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+(function(){
+
+  const CATS = [
+    { id:'police',  name:'ตำรวจและความปลอดภัย',   color:'var(--cat-police)' },
+    { id:'medical', name:'การแพทย์และสุขภาพ',      color:'var(--cat-medical)' },
+    { id:'fire',    name:'ภัยพิบัติและดับเพลิง',    color:'var(--cat-fire)' },
+    { id:'traffic', name:'การจราจรและทางหลวง',      color:'var(--cat-traffic)' },
+    { id:'utility', name:'สาธารณูปโภค',            color:'var(--cat-utility)' },
+    { id:'gov',     name:'บริการภาครัฐและร้องเรียน', color:'var(--cat-gov)' },
+    { id:'travel',  name:'การเดินทางและท่องเที่ยว', color:'var(--cat-travel)' },
+    { id:'social',  name:'สังคมและสวัสดิการ',      color:'var(--cat-social)' },
+  ];
+
+  const HERO = [
+    { num:'191',  label:'แจ้งเหตุด่วนเหตุร้าย / ตำรวจ' },
+    { num:'199',  label:'แจ้งเหตุเพลิงไหม้ / ดับเพลิง' },
+    { num:'1669', label:'การแพทย์ฉุกเฉิน (EMS)' },
+    { num:'1554', label:'หน่วยแพทย์กู้ชีวิต วชิรพยาบาล' },
+  ];
+
+  const DATA = [
+    // ตำรวจและความปลอดภัย
+    { cat:'police', num:'191',  name:'แจ้งเหตุด่วนเหตุร้าย', desc:'สายด่วนตำรวจ สำหรับเหตุฉุกเฉินทุกประเภททั่วประเทศ' },
+    { cat:'police', num:'1195', name:'กองปราบปราม', desc:'แจ้งเหตุอาชญากรรมร้ายแรงและคดีสำคัญ' },
+    { cat:'police', num:'1192', name:'ศูนย์ปราบปรามการโจรกรรมรถ', desc:'แจ้งรถหายหรือรถถูกโจรกรรม' },
+    { cat:'police', num:'1300', name:'ศูนย์ประชาบดี', desc:'แจ้งคนหาย และขอความช่วยเหลือทางสังคม (พม.)' },
+    { cat:'police', num:'1155', name:'ตำรวจท่องเที่ยว', desc:'ช่วยเหลือนักท่องเที่ยวไทยและต่างชาติตลอด 24 ชม.' },
+    { cat:'gov', num:'1111', name:'ศูนย์บริการข้อมูลภาครัฐ', desc:'สายด่วนของรัฐบาล สอบถามและแจ้งเรื่องร้องเรียน' },
+
+    // การแพทย์และสุขภาพ
+    { cat:'medical', num:'1669', name:'สถาบันการแพทย์ฉุกเฉินแห่งชาติ', desc:'เรียกรถพยาบาลฉุกเฉิน ฟรีทั่วประเทศ' },
+    { cat:'medical', num:'1554', name:'หน่วยแพทย์กู้ชีวิต วชิรพยาบาล', desc:'หน่วยกู้ชีพในเขตกรุงเทพมหานคร' },
+    { cat:'medical', num:'1646', name:'สายด่วนสุขภาพ กทม.', desc:'สำนักการแพทย์ กรุงเทพมหานคร' },
+    { cat:'medical', num:'1323', name:'สายด่วนสุขภาพจิต', desc:'กรมสุขภาพจิต ให้คำปรึกษาด้านจิตใจตลอด 24 ชม.' },
+    { cat:'medical', num:'1422', name:'กรมควบคุมโรค', desc:'สอบถามข้อมูลโรคติดต่อและการระบาด' },
+    { cat:'medical', num:'1556', name:'สำนักงานคณะกรรมการอาหารและยา', desc:'แจ้งเหตุ อย. เกี่ยวกับอาหาร ยา และผลิตภัณฑ์สุขภาพ' },
+
+    { cat:'medical', num:'1367', name:'ศูนย์พิษวิทยา รพ.รามาธิบดี', desc:'ปรึกษาเมื่อได้รับสารพิษ ยาเกินขนาด หรือสัตว์มีพิษกัด' },
+    { cat:'medical', num:'1330', name:'สำนักงานหลักประกันสุขภาพแห่งชาติ', desc:'สอบถามสิทธิบัตรทอง (สปสช.)' },
+    { cat:'medical', num:'1165', name:'สายด่วนยาเสพติด สถาบันธัญญารักษ์', desc:'ปรึกษาและขอความช่วยเหลือเรื่องยาเสพติด' },
+
+    // ภัยพิบัติและดับเพลิง
+    { cat:'fire', num:'199',  name:'แจ้งเหตุเพลิงไหม้ / กู้ภัย', desc:'ดับเพลิงและกู้ภัยทั่วประเทศ รวมถึงสัตว์มีพิษเข้าบ้านช่วงน้ำท่วม' },
+    { cat:'fire', num:'1784', name:'กรมป้องกันและบรรเทาสาธารณภัย (ปภ.)', desc:'แจ้งเหตุและประสานความช่วยเหลือภัยพิบัติทุกประเภททั่วประเทศ' },
+    { cat:'fire', num:'192',  name:'ศูนย์เตือนภัยพิบัติแห่งชาติ', desc:'ติดตามและรับแจ้งภัยพิบัติ เช่น น้ำท่วม แผ่นดินไหว สึนามิ' },
+    { cat:'fire', num:'1182', name:'กรมอุตุนิยมวิทยา', desc:'ข่าวอากาศ พยากรณ์ และประกาศเตือนภัยพายุ ฝนตกหนัก' },
+    { cat:'fire', num:'1460', name:'กรมชลประทาน', desc:'สอบถามสถานการณ์น้ำและเขื่อน ช่วงน้ำท่วมและน้ำหลาก' },
+    { cat:'fire', num:'1362', name:'สายด่วนพิทักษ์ป่า', desc:'แจ้งไฟป่า การเผาป่า และเหตุทรัพยากรป่าไม้ ตลอด 24 ชม.' },
+    { cat:'fire', num:'1664', name:'สภากาชาดไทย', desc:'รับแจ้งและช่วยเหลือผู้ประสบสาธารณภัย' },
+    { cat:'fire', num:'1555', name:'ศูนย์ร้องทุกข์ กทม.', desc:'แจ้งน้ำท่วมขังและปัญหาในเขตกรุงเทพมหานคร' },
+
+    // การจราจรและทางหลวง
+    { cat:'traffic', num:'1193', name:'ตำรวจทางหลวง', desc:'แจ้งเหตุบนทางหลวงทั่วประเทศ' },
+    { cat:'traffic', num:'1146', name:'กรมทางหลวงชนบท', desc:'แจ้งเหตุและสอบถามเส้นทางถนนชนบท' },
+    { cat:'traffic', num:'1586', name:'กรมทางหลวง', desc:'ข้อมูลเส้นทางและแจ้งเหตุบนถนนสายหลัก' },
+    { cat:'traffic', num:'1543', name:'การทางพิเศษแห่งประเทศไทย', desc:'แจ้งเหตุบนทางพิเศษ (ทางด่วน)' },
+    { cat:'traffic', num:'1197', name:'ข้อมูลจราจร บก.จร.', desc:'สอบถามสภาพการจราจรในกรุงเทพฯ และปริมณฑล' },
+    { cat:'traffic', num:'1196', name:'แจ้งอุบัติเหตุทางน้ำ', desc:'สายด่วนเหตุฉุกเฉินทางน้ำ' },
+    { cat:'traffic', num:'1233', name:'ทางยกระดับดอนเมือง', desc:'แจ้งอุบัติเหตุบนทางยกระดับ (โทลล์เวย์)' },
+
+    // สาธารณูปโภค
+    { cat:'utility', num:'1129', name:'การไฟฟ้าส่วนภูมิภาค', desc:'แจ้งไฟฟ้าดับ ไฟฟ้าขัดข้องต่างจังหวัด (PEA)' },
+    { cat:'utility', num:'1130', name:'การไฟฟ้านครหลวง', desc:'แจ้งไฟฟ้าดับ ไฟฟ้าขัดข้องในกรุงเทพฯ (MEA)' },
+    { cat:'utility', num:'1125', name:'การประปานครหลวง', desc:'แจ้งน้ำประปาขัดข้องในเขตกรุงเทพฯ (MWA)' },
+    { cat:'utility', num:'1162', name:'การประปาส่วนภูมิภาค', desc:'แจ้งน้ำประปาขัดข้องต่างจังหวัด (PWA)' },
+
+    // บริการภาครัฐและร้องเรียน
+    { cat:'gov', num:'1567', name:'ศูนย์ดำรงธรรม', desc:'กระทรวงมหาดไทย รับเรื่องร้องเรียนและร้องทุกข์ของประชาชน' },
+    { cat:'gov', num:'1166', name:'สำนักงานคณะกรรมการคุ้มครองผู้บริโภค', desc:'ร้องเรียนเมื่อถูกเอาเปรียบจากสินค้าและบริการ' },
+    { cat:'gov', num:'1548', name:'สำนักทะเบียนราษฎร์ กรมการปกครอง', desc:'สอบถามเรื่องบัตรประชาชนและทะเบียนบ้าน' },
+    { cat:'gov', num:'1161', name:'กรมสรรพากร', desc:'สอบถามเรื่องภาษีและการยื่นแบบ' },
+    { cat:'gov', num:'1164', name:'กรมศุลกากร', desc:'สอบถามและร้องเรียนเรื่องศุลกากร' },
+    { cat:'gov', num:'1186', name:'สายด่วนประกันภัย (คปภ.)', desc:'สอบถามและร้องเรียนเรื่องประกันภัย' },
+    { cat:'gov', num:'1694', name:'กรมสวัสดิการและคุ้มครองแรงงาน', desc:'ร้องเรียนปัญหาการจ้างงานและสิทธิแรงงาน' },
+    { cat:'gov', num:'1171', name:'สำนักงานคณะกรรมการการเลือกตั้ง', desc:'สอบถามและแจ้งเรื่องเกี่ยวกับการเลือกตั้ง' },
+
+    // การเดินทางและท่องเที่ยว
+    { cat:'travel', num:'1490', name:'บริษัท ขนส่ง จำกัด', desc:'สอบถามข้อมูลรถโดยสาร บขส.' },
+    { cat:'travel', num:'1690', name:'การรถไฟแห่งประเทศไทย', desc:'สอบถามตารางเวลาและบริการรถไฟ' },
+    { cat:'travel', num:'1672', name:'การท่องเที่ยวแห่งประเทศไทย', desc:'ททท. ให้ข้อมูลท่องเที่ยวทั่วประเทศ' },
+
+    // สังคมและสวัสดิการ
+    { cat:'social', num:'1300', name:'ศูนย์ช่วยเหลือสังคม', desc:'กระทรวงการพัฒนาสังคมและความมั่นคงของมนุษย์' },
+    { cat:'social', num:'1506', name:'สำนักงานประกันสังคม', desc:'สอบถามสิทธิประกันสังคม' },
+    { cat:'social', num:'1677', name:'ร่วมด้วยช่วยกัน', desc:'ศูนย์ประสานงานช่วยเหลือประชาชน' },
+  ];
+
+  const callIconSvg = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.9 3.7 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8z"/></svg>`;
+
+  // Hero tiles
+  const heroGrid = document.getElementById('heroGrid');
+  HERO.forEach(h=>{
+    const a = document.createElement('a');
+    a.className='hero-tile';
+    a.href='tel:'+h.num;
+    a.innerHTML = `<span class="num display">${h.num}</span><span class="label">${h.label}</span>`;
+    heroGrid.appendChild(a);
+  });
+
+  const HERO2 = [
+    { num:'1784', label:'ปภ. แจ้งภัยพิบัติทุกประเภท' },
+    { num:'192',  label:'ศูนย์เตือนภัยพิบัติแห่งชาติ' },
+    { num:'1182', label:'กรมอุตุนิยมวิทยา เตือนพายุ/ฝน' },
+    { num:'1362', label:'แจ้งไฟป่า / หมอกควัน' },
+  ];
+  const heroGrid2 = document.getElementById('heroGrid2');
+  HERO2.forEach(h=>{
+    const a = document.createElement('a');
+    a.className='hero-tile alt';
+    a.href='tel:'+h.num;
+    a.innerHTML = `<span class="num display">${h.num}</span><span class="label">${h.label}</span>`;
+    heroGrid2.appendChild(a);
+  });
+
+  // Jump nav (scrolls to section, also sets active state on scroll)
+  const jumpNav = document.getElementById('jumpNav');
+  CATS.forEach(c=>{
+    const a = document.createElement('a');
+    a.className='jump-btn';
+    a.href = '#cat-'+c.id;
+    a.style.setProperty('--jump-color', c.color);
+    a.dataset.cat = c.id;
+    a.innerHTML = `<span class="dot" style="background:${c.color}"></span>${c.name}`;
+    jumpNav.appendChild(a);
+  });
+
+  const mainContent = document.getElementById('mainContent');
+
+  function renderAll(){
+    document.getElementById('numList').innerHTML='';
+    ['panel-guide','panel-prep','panel-mine'].forEach(id=>{ document.getElementById(id).innerHTML=''; });
+    buildFavSection();
+    buildHealthSection();
+    buildGuideSection();
+    buildPrepSection();
+    CATS.forEach(cat=>{
+      const items = DATA.filter(d=>d.cat===cat.id);
+      const section = document.createElement('section');
+      section.className='category-section';
+      section.id = 'cat-'+cat.id;
+      section.innerHTML = `
+        <div class="category-head">
+          <span class="dot" style="background:${cat.color}"></span>
+          <h2>${cat.name}</h2>
+          <span class="count">${items.length} เบอร์</span>
+        </div>
+        <div class="card-grid"></div>
+      `;
+      const grid = section.querySelector('.card-grid');
+      items.forEach(item=>{
+        grid.appendChild(makeCard(item, cat.color, item.cat+':'+item.num, false));
+      });
+      document.getElementById('numList').appendChild(section);
+    });
+  }
+
+  function filterBySearch(){
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    applyTab(q);
+    let totalShown = 0;
+    document.querySelectorAll('.category-section').forEach(section=>{
+      if(section.id==='cat-fav' || section.id==='cat-health'){ section.hidden = !!q; return; }
+      const cards = section.querySelectorAll('.card-wrap');
+      let visibleInSection = 0;
+      cards.forEach(card=>{
+        const text = card.textContent.toLowerCase();
+        const match = !q || q.split(/\s+/).every(t=>text.includes(t));
+        card.hidden = !match;
+        if(match) visibleInSection++;
+      });
+      section.hidden = visibleInSection===0;
+      section.querySelector('.count').textContent = visibleInSection + (section.dataset.unit || ' เบอร์');
+      totalShown += visibleInSection;
+    });
+
+    let emptyState = document.getElementById('emptyState');
+    if(totalShown===0){
+      if(!emptyState){
+        emptyState = document.createElement('div');
+        emptyState.id='emptyState';
+        emptyState.className='empty-state';
+        emptyState.innerHTML = `<div class="big">ไม่พบเบอร์ที่ค้นหา</div><div>ลองพิมพ์คำอื่น เช่น ชื่อหน่วยงาน หรือประเภทเหตุการณ์</div>`;
+        mainContent.appendChild(emptyState);
+      }
+    } else if(emptyState){
+      emptyState.remove();
+    }
+  }
+
+  const searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', filterBySearch);
+
+  // Voice search (Web Speech API)
+  const micBtn = document.getElementById('micBtn');
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){
+    micBtn.hidden = true;
+  } else {
+    const defaultPh = searchInput.placeholder;
+    let rec = null, listening = false;
+    const setPh = t => { searchInput.placeholder = t; };
+    micBtn.addEventListener('click', ()=>{
+      if(listening){ rec.stop(); return; }
+      rec = new SR();
+      rec.lang = 'th-TH';
+      rec.interimResults = true;
+      rec.maxAlternatives = 1;
+      rec.onstart = ()=>{
+        listening = true;
+        micBtn.classList.add('listening');
+        searchInput.value = '';
+        filterBySearch();
+        setPh('กำลังฟัง... พูดชื่อหน่วยงานหรือเบอร์ได้เลย');
+      };
+      rec.onresult = e=>{
+        let t = '';
+        for(let i=0;i<e.results.length;i++) t += e.results[i][0].transcript;
+        searchInput.value = t.trim();
+        filterBySearch();
+      };
+      rec.onerror = e=>{
+        if(e.error==='not-allowed' || e.error==='service-not-allowed'){
+          setPh('ไม่ได้รับอนุญาตใช้ไมโครโฟน กรุณาอนุญาตในการตั้งค่าเบราว์เซอร์');
+        } else if(e.error==='no-speech'){
+          setPh('ไม่ได้ยินเสียง ลองกดไมค์แล้วพูดอีกครั้ง');
+        } else {
+          setPh('ใช้เสียงค้นหาไม่ได้ในขณะนี้ ลองพิมพ์แทน');
+        }
+      };
+      rec.onend = ()=>{
+        listening = false;
+        micBtn.classList.remove('listening');
+        if(searchInput.placeholder.startsWith('กำลังฟัง')) setPh(defaultPh);
+        else setTimeout(()=>setPh(defaultPh), 4000);
+      };
+      try{ rec.start(); }catch(err){ setPh(defaultPh); }
+    });
+  }
+
+  // Active state on jump nav via scroll spy
+  const jumpButtons = Array.from(document.querySelectorAll('.jump-btn'));
+  const observer = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const id = entry.target.id.replace('cat-','');
+        jumpButtons.forEach(b=> b.classList.toggle('active', b.dataset.cat===id));
+      }
+    });
+  }, { rootMargin: '-160px 0px -70% 0px' });
+
+
+  // ---------- Favorites ----------
+  const esc = t => String(t).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const telNum = n => String(n).replace(/[^\d+*#]/g,'');
+  const starSvg = '<svg viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>';
+  const xSvg = '<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+  let favKeys = [], customs = [];
+  try{
+    const d = JSON.parse(localStorage.getItem('thaiHotlines') || '{}');
+    if(Array.isArray(d.favKeys)) favKeys = d.favKeys.filter(k=>typeof k==='string');
+    if(Array.isArray(d.customs)) customs = d.customs.filter(c=>c && typeof c.name==='string' && typeof c.num==='string');
+  }catch(e){}
+  function saveState(){ try{ localStorage.setItem('thaiHotlines', JSON.stringify({favKeys, customs})); }catch(e){} }
+
+  function makeCard(item, color, key, isCustom){
+    const wrap = document.createElement('div');
+    wrap.className = 'card-wrap';
+    wrap.dataset.key = key;
+    const card = document.createElement('a');
+    card.className = 'card';
+    card.href = 'tel:' + telNum(item.num);
+    card.setAttribute('aria-label', item.name + ' โทร ' + item.num);
+    card.innerHTML = `<div class="name">${esc(item.name)}</div>` +
+      (item.desc ? `<div class="desc">${esc(item.desc)}</div>` : '') +
+      `<span class="call-btn" style="--cat-color:${color}">${callIconSvg}${esc(item.num)}</span>`;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'fav-btn';
+    if(isCustom){
+      btn.innerHTML = xSvg;
+      btn.setAttribute('aria-label', 'ลบ ' + item.name);
+      btn.addEventListener('click', ()=>{
+        customs = customs.filter(c=>c.id!==item.id);
+        saveState(); renderFavs();
+      });
+    } else {
+      btn.innerHTML = starSvg;
+      btn.setAttribute('aria-label', 'เพิ่มหรือลบเบอร์โปรด: ' + item.name);
+      const baseKey = key.replace('#fav','');
+      btn.setAttribute('aria-pressed', String(favKeys.includes(baseKey)));
+      btn.addEventListener('click', ()=>{
+        favKeys = favKeys.includes(baseKey) ? favKeys.filter(k=>k!==baseKey) : favKeys.concat(baseKey);
+        saveState(); renderFavs();
+      });
+    }
+    wrap.append(card, btn);
+    return wrap;
+  }
+
+  function buildFavSection(){
+    const section = document.createElement('section');
+    section.className = 'category-section';
+    section.id = 'cat-fav';
+    section.style.marginTop = '8px';
+    section.innerHTML = `
+      <div class="category-head">
+        <span class="dot" style="background:var(--accent-red)"></span>
+        <h2>เบอร์โปรดของฉัน</h2>
+        <span class="count"></span>
+      </div>
+      <p class="fav-hint" id="favHint">แตะดาวที่การ์ดเพื่อปักเบอร์ไว้ที่นี่ หรือเพิ่มเบอร์ส่วนตัว เช่น ญาติ เพื่อนบ้าน หมอประจำตัว (เก็บไว้ในเครื่องนี้เท่านั้น)</p>
+      <div class="card-grid" id="favGrid"></div>
+      <button type="button" class="add-btn" id="addBtn">+ เพิ่มเบอร์ของฉัน</button>
+      <div class="add-form" id="addForm" hidden>
+        <label>ชื่อ<input id="cName" maxlength="40" placeholder="เช่น แม่, หมอสมชาย"></label>
+        <label>เบอร์โทร<input id="cNum" type="tel" inputmode="tel" maxlength="20" placeholder="เช่น 0812345678"></label>
+        <button type="button" class="save-btn" id="cSave">บันทึก</button>
+        <div class="form-msg" id="formMsg" role="alert"></div>
+      </div>`;
+    document.getElementById('panel-mine').appendChild(section);
+    const form = section.querySelector('#addForm');
+    section.querySelector('#addBtn').addEventListener('click', ()=>{
+      form.hidden = !form.hidden;
+      if(!form.hidden) section.querySelector('#cName').focus();
+    });
+    section.querySelector('#cSave').addEventListener('click', ()=>{
+      const name = section.querySelector('#cName').value.trim();
+      const num = section.querySelector('#cNum').value.trim();
+      const msg = section.querySelector('#formMsg');
+      if(!name){ msg.textContent = 'กรุณาใส่ชื่อ'; return; }
+      if(!/^[0-9+\-\s#*]{3,20}$/.test(num) || telNum(num).length < 3){ msg.textContent = 'กรุณาใส่เบอร์ให้ถูกต้อง (ตัวเลข 3-20 หลัก)'; return; }
+      msg.textContent = '';
+      customs.push({id: Date.now().toString(36) + Math.random().toString(36).slice(2,6), name, num});
+      saveState();
+      section.querySelector('#cName').value = '';
+      section.querySelector('#cNum').value = '';
+      form.hidden = true;
+      renderFavs();
+    });
+  }
+
+  function renderFavs(){
+    const grid = document.getElementById('favGrid');
+    if(!grid) return;
+    grid.innerHTML = '';
+    let n = 0;
+    favKeys.forEach(key=>{
+      const item = DATA.find(d=>d.cat+':'+d.num===key);
+      if(!item) return;
+      const cat = CATS.find(c=>c.id===item.cat);
+      grid.appendChild(makeCard(item, cat.color, key + '#fav', false));
+      n++;
+    });
+    customs.forEach(c=>{
+      grid.appendChild(makeCard(c, 'var(--ink)', 'custom:' + c.id, true));
+      n++;
+    });
+    // star buttons in fav section reflect pressed state via favKeys
+    document.querySelectorAll('.card-wrap .fav-btn[aria-pressed]').forEach(b=>{
+      const k = b.parentElement.dataset.key.replace('#fav','');
+      b.setAttribute('aria-pressed', String(favKeys.includes(k)));
+    });
+    document.querySelector('#cat-fav .count').textContent = n ? n + ' เบอร์' : '';
+    document.getElementById('favHint').hidden = n > 0;
+  }
+
+
+  // ---------- Guides ----------
+  const GUIDES = [
+    { title:'ไฟไหม้', type:'d', call:'199', callLabel:'โทร 199 ดับเพลิง', steps:[
+      'ตะโกนเตือนคนรอบตัว แล้วออกจากอาคารทันที อย่าเสียเวลาเก็บของ',
+      'ก้มตัวต่ำเพื่อหลบควัน ใช้ผ้าเปียกปิดปากและจมูก',
+      'ห้ามใช้ลิฟต์ ให้ใช้บันไดหนีไฟ ก่อนเปิดประตูให้คลำดูก่อน ถ้าร้อนอย่าเปิด',
+      'ออกมาแล้วห้ามกลับเข้าไป โทร 199 จากที่ปลอดภัย',
+      'ถ้าไฟติดเสื้อผ้า ให้หยุดวิ่ง ล้มตัวลงนอน ปิดหน้า แล้วกลิ้งตัวจนไฟดับ'] },
+    { title:'แผ่นดินไหว', type:'d', call:'1784', callLabel:'โทร 1784 ปภ.', steps:[
+      'ถ้าอยู่ในอาคาร ให้ก้มตัว เข้าใต้โต๊ะที่แข็งแรง แล้วจับขาโต๊ะไว้ ป้องกันศีรษะและคอ',
+      'อยู่ห่างกระจก ตู้ และของหนักที่อาจล้มทับ',
+      'ห้ามใช้ลิฟต์ รอให้การสั่นไหวหยุดก่อนจึงออกจากอาคาร',
+      'ถ้าอยู่ข้างนอก ไปที่โล่งห่างอาคาร ป้าย และสายไฟ ถ้าอยู่ชายฝั่งและรู้สึกไหวแรง ให้ไปที่สูงทันที',
+      'หลังหยุดไหว ตรวจดูคนบาดเจ็บ ระวังอาฟเตอร์ช็อก ถ้าได้กลิ่นแก๊สหรือสายไฟเสียหายให้ปิดแก๊สและตัดไฟ'] },
+    { title:'น้ำท่วม', type:'d', call:'1784', callLabel:'โทร 1784 ปภ.', steps:[
+      'ยกของสำคัญและเอกสารขึ้นที่สูง เตรียมไฟฉาย ยา น้ำดื่ม และแบตเตอรี่สำรอง',
+      'ตัดไฟที่เบรกเกอร์ก่อนน้ำเข้าบ้าน ห้ามแตะปลั๊กหรืออุปกรณ์ไฟฟ้าขณะยืนแช่น้ำ',
+      'ห้ามเดินหรือขับรถลุยน้ำที่ไหลแรง เพราะน้ำไหลเชี่ยวแค่ระดับข้อเท้าก็ทำให้ล้มได้',
+      'ระวังสัตว์มีพิษที่หนีน้ำ ไม่ลุยน้ำสกปรกเมื่อมีแผล และล้างมือหลังสัมผัสน้ำ',
+      'หากต้องอพยพ ให้ไปที่สูงหรือศูนย์พักพิงตามประกาศ ปภ. หากมีคนเจ็บโทร 1669'],
+      note:'ติดตามประกาศเตือนภัยจาก ปภ. และกรมอุตุนิยมวิทยา (1182) ต่อเนื่อง' },
+    { title:'หมดสติ ไม่หายใจ (CPR)', type:'f', call:'1669', callLabel:'โทร 1669 แพทย์ฉุกเฉิน', steps:[
+      'ตรวจว่าปลอดภัย ตบไหล่แรงๆ แล้วเรียก ถ้าไม่ตอบสนองและไม่หายใจ หรือหายใจเฮือก ให้ถือว่าหัวใจหยุดเต้น',
+      'โทร 1669 ทันที เปิดลำโพงไว้ และให้คนอื่นไปหาเครื่อง AED',
+      'วางส้นมือกลางหน้าอก กดลึกประมาณ 5-6 ซม. เร็ว 100-120 ครั้งต่อนาที ปล่อยให้อกคืนตัวสุด',
+      'กดต่อเนื่องไม่หยุดจนเจ้าหน้าที่มาถึง หากมี AED ให้เปิดเครื่องและทำตามเสียงสั่ง'],
+      note:'ถ้าไม่เคยฝึกอบรม กดหน้าอกอย่างเดียวได้เลย และทำตามที่เจ้าหน้าที่ทางโทรศัพท์แนะนำ' },
+    { title:'เลือดออกมาก', type:'f', call:'1669', callLabel:'โทร 1669 แพทย์ฉุกเฉิน', steps:[
+      'ใช้ผ้าสะอาดกดตรงแผลให้แน่นและต่อเนื่อง ถ้ามีถุงมือหรือถุงพลาสติกให้สวมป้องกัน',
+      'อย่าเปิดผ้าดูบ่อย ถ้าเลือดซึมทะลุ ให้วางผ้าทับเพิ่มแล้วกดต่อ',
+      'ยกส่วนที่เลือดออกให้สูงกว่าหัวใจ หากไม่สงสัยว่ากระดูกหัก',
+      'ห้ามดึงวัตถุที่ปักอยู่ออก ให้ประคองไว้แล้วกดรอบๆ',
+      'ถ้าเลือดไม่หยุดใน 10 นาที แผลลึก หรือผู้ป่วยหน้ามืดซีด ให้โทร 1669'] },
+    { title:'แผลไฟไหม้ น้ำร้อนลวก', type:'f', call:'1669', callLabel:'โทร 1669 กรณีรุนแรง', steps:[
+      'ออกห่างแหล่งความร้อน ถอดแหวนหรือเครื่องประดับบริเวณนั้นก่อนที่จะบวม',
+      'ล้างด้วยน้ำสะอาดที่ไหลผ่านเย็นปกติ 10-20 นาที ห้ามใช้น้ำแข็ง',
+      'ห้ามทายาสีฟัน น้ำปลา เนย และห้ามแกะตุ่มพอง',
+      'คลุมหลวมๆ ด้วยผ้าสะอาดที่ไม่มีขุย',
+      'โทร 1669 หากแผลใหญ่ ลึก อยู่ที่หน้า มือ ข้อต่อ หรือเกิดจากสารเคมีและไฟฟ้า'] },
+    { title:'สำลัก (ผู้ใหญ่)', type:'f', call:'1669', callLabel:'โทร 1669 แพทย์ฉุกเฉิน', steps:[
+      'ถ้ายังไอแรงและพูดได้ ให้กระตุ้นให้ไอต่อ ไม่ต้องตบหลัง',
+      'ถ้าพูดหรือไอไม่ออก หายใจไม่ได้ หรือหน้าเขียว ให้โทร 1669 หรือให้คนอื่นโทรทันที',
+      'โน้มตัวผู้ป่วยไปข้างหน้า ตบหลังระหว่างสะบักแรงๆ 5 ครั้ง',
+      'ถ้ายังไม่ออก ให้ยืนด้านหลัง กำหมัดเหนือสะดือ กระตุกเข้าและขึ้นแรงๆ 5 ครั้ง สลับกับตบหลังจนของหลุด',
+      'ถ้าผู้ป่วยหมดสติ ให้วางลงกับพื้นและเริ่ม CPR'],
+      note:'กรณีเด็กเล็กและทารกวิธีต่างจากผู้ใหญ่ ให้โทร 1669 ขอคำแนะนำทันที' },
+    { title:'ไฟฟ้าดูด', type:'f', call:'1669', callLabel:'โทร 1669 แพทย์ฉุกเฉิน', steps:[
+      'ห้ามแตะตัวผู้ป่วยขณะยังติดไฟฟ้า ให้ตัดไฟที่เบรกเกอร์หรือถอดปลั๊กก่อน',
+      'ถ้าตัดไฟไม่ได้ ให้ยืนบนที่แห้ง ใช้ไม้หรือพลาสติกแห้งผลักสายไฟออก',
+      'โทร 1669 ทุกกรณี แม้ผู้ป่วยดูปกติ เพราะไฟฟ้าอาจกระทบการเต้นของหัวใจ',
+      'ถ้าไม่หายใจ ให้เริ่ม CPR',
+      'หากสายไฟแรงสูงขาดตกอยู่ ให้อยู่ห่างและแจ้งการไฟฟ้า (1129 ต่างจังหวัด / 1130 กรุงเทพฯ)'] },
+  ];
+
+  function buildGuideSection(){
+    const section = document.createElement('section');
+    section.className = 'category-section';
+    section.id = 'cat-guide';
+    section.dataset.unit = ' เรื่อง';
+    section.style.marginTop = '36px';
+    section.innerHTML = `
+      <div class="category-head">
+        <span class="dot" style="background:var(--accent-red)"></span>
+        <h2>คู่มือฉุกเฉินฉบับย่อ</h2>
+        <span class="count">${GUIDES.length} เรื่อง</span>
+      </div>
+      <p class="fav-hint">แตะหัวข้อเพื่อดูขั้นตอน ใช้เป็นแนวทางเบื้องต้นระหว่างรอเจ้าหน้าที่ ไม่แทนการฝึกอบรม และให้ทำตามคำแนะนำของเจ้าหน้าที่ทางโทรศัพท์เป็นหลัก</p>
+      <div class="card-grid guide-grid"></div>`;
+    const grid = section.querySelector('.guide-grid');
+    GUIDES.forEach(g=>{
+      const color = g.type==='d' ? 'var(--cat-fire)' : 'var(--cat-medical)';
+      const wrap = document.createElement('div');
+      wrap.className = 'card-wrap';
+      const det = document.createElement('details');
+      det.className = 'guide';
+      det.style.setProperty('--gc', color);
+      det.innerHTML = `<summary><span>${esc(g.title)}</span><span class="g-tag">${g.type==='d' ? 'ภัยพิบัติ' : 'ปฐมพยาบาล'}</span></summary>
+        <div class="g-body">
+          <ol>${g.steps.map(t=>`<li>${esc(t)}</li>`).join('')}</ol>
+          ${g.note ? `<p class="g-note">${esc(g.note)}</p>` : ''}
+          <a class="call-btn" style="--cat-color:${color}" href="tel:${g.call}">${callIconSvg}${esc(g.callLabel)}</a>
+        </div>`;
+      wrap.appendChild(det);
+      grid.appendChild(wrap);
+    });
+    document.getElementById('panel-guide').appendChild(section);
+  }
+
+  // ---------- Share ----------
+  const SHARE_URL = 'https://claude.ai/artifact/F89Nr9R3yGtoPatsYhggj5';
+  const SHARE_TITLE = 'สมุดเบอร์ฉุกเฉินไทย';
+  const SHARE_TEXT = 'รวมเบอร์สายด่วนฉุกเฉินและคู่มือฉุกเฉิน บันทึกไว้ก่อนเกิดเหตุ';
+  const shareDlg = document.getElementById('shareDialog');
+  const qrBox = document.getElementById('qrBox');
+  const qrFail = ()=>{ qrBox.innerHTML = '<div class="qr-fail">สร้าง QR code ไม่ได้ในขณะนี้ กรุณาใช้ปุ่มส่งทาง LINE หรือคัดลอกลิงก์แทน</div>'; };
+  function drawQR(){
+    if(qrBox.dataset.done) return;
+    if(typeof qrcode === 'undefined'){ qrFail(); return; }
+    try{
+      const qr = qrcode(0, 'M');
+      qr.addData(SHARE_URL);
+      qr.make();
+      const n = qr.getModuleCount(), m = 4;
+      let d = '';
+      for(let r=0;r<n;r++) for(let c=0;c<n;c++) if(qr.isDark(r,c)) d += `M${c+m} ${r+m}h1v1h-1z`;
+      qrBox.innerHTML = `<svg viewBox="0 0 ${n+2*m} ${n+2*m}" role="img" aria-label="QR code ลิงก์ของเว็บนี้" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="${d}" fill="#000"/></svg>`;
+      qrBox.dataset.done = '1';
+    }catch(e){ qrFail(); }
+  }
+  document.getElementById('shareLine').href = 'https://line.me/R/msg/text/?' + encodeURIComponent(SHARE_TEXT + '\n' + SHARE_URL);
+  const shareNative = document.getElementById('shareNative');
+  if(navigator.share){
+    shareNative.hidden = false;
+    shareNative.addEventListener('click', ()=>{
+      navigator.share({title:SHARE_TITLE, text:SHARE_TEXT, url:SHARE_URL}).catch(()=>{});
+    });
+  }
+  const shareCopy = document.getElementById('shareCopy');
+  shareCopy.addEventListener('click', ()=>{
+    copyText(SHARE_URL).then(()=>{ shareCopy.textContent = 'คัดลอกแล้ว'; }, ()=>{ shareCopy.textContent = 'คัดลอกไม่ได้'; });
+    setTimeout(()=>{ shareCopy.textContent = 'คัดลอกลิงก์'; }, 2500);
+  });
+  document.getElementById('shareBtn').addEventListener('click', ()=>{
+    drawQR();
+    if(shareDlg.showModal) shareDlg.showModal(); else shareDlg.setAttribute('open','');
+  });
+  const closeShare = ()=>{ if(shareDlg.close) shareDlg.close(); else shareDlg.removeAttribute('open'); };
+  document.getElementById('shareClose').addEventListener('click', closeShare);
+  shareDlg.addEventListener('click', e=>{ if(e.target===shareDlg) closeShare(); });
+
+  // ---------- Health card ----------
+  const HKEYS = ['name','blood','conditions','meds','allergies','cname','cnum','crel'];
+  let health = {};
+  try{
+    const d = JSON.parse(localStorage.getItem('thaiHealthCard') || '{}');
+    if(d && typeof d==='object') HKEYS.forEach(k=>{ if(typeof d[k]==='string') health[k]=d[k]; });
+  }catch(e){}
+  let healthEditing = false;
+  const hasHealth = () => HKEYS.some(k=>(health[k]||'').trim());
+  function saveHealth(){ try{ localStorage.setItem('thaiHealthCard', JSON.stringify(health)); }catch(e){} }
+  function healthRows(){
+    const rows = [
+      ['ชื่อ-นามสกุล', health.name], ['กรุ๊ปเลือด', health.blood],
+      ['โรคประจำตัว', health.conditions], ['ยาที่ใช้ประจำ', health.meds], ['แพ้ยา / แพ้อาหาร', health.allergies],
+      ['ผู้ติดต่อฉุกเฉิน', [health.cname, health.crel ? '('+health.crel+')' : '', health.cnum].filter(Boolean).join(' ')]
+    ].filter(r=>r[1] && r[1].trim());
+    return rows.map(r=>`<div class="h-row"><div class="h-label">${r[0]}</div><div class="h-val">${esc(r[1])}</div></div>`).join('');
+  }
+  function healthText(){
+    return ['ชื่อ-นามสกุล:'+(health.name||'-'),'กรุ๊ปเลือด:'+(health.blood||'-'),'โรคประจำตัว:'+(health.conditions||'-'),
+      'ยาที่ใช้ประจำ:'+(health.meds||'-'),'แพ้ยา/แพ้อาหาร:'+(health.allergies||'-'),
+      'ผู้ติดต่อฉุกเฉิน:'+([health.cname, health.crel, health.cnum].filter(Boolean).join(' ')||'-')].join('\n');
+  }
+  function buildHealthSection(){
+    const section = document.createElement('section');
+    section.className = 'category-section';
+    section.id = 'cat-health';
+    section.style.marginTop = '36px';
+    section.innerHTML = `
+      <div class="category-head">
+        <span class="dot" style="background:var(--accent-red)"></span>
+        <h2>บัตรข้อมูลสุขภาพฉุกเฉิน</h2>
+      </div>
+      <div id="healthBody"></div>
+      <p class="h-privacy">ข้อมูลเก็บไว้ในเครื่องนี้เท่านั้น ไม่ถูกส่งไปที่ไหน แต่ใครก็ตามที่ถือเครื่องนี้และเปิดเว็บนี้จะเห็นข้อมูลได้ จึงควรใส่เฉพาะข้อมูลที่จำเป็น ไม่ควรใส่เลขบัตรประชาชน และควรลบข้อมูลหากใช้เครื่องสาธารณะหรือเครื่องที่ใช้ร่วมกัน</p>`;
+    document.getElementById('panel-mine').appendChild(section);
+    renderHealth();
+  }
+  function renderHealth(){
+    const body = document.getElementById('healthBody');
+    if(!body) return;
+    if(healthEditing){
+      const blood = ['','A+','A-','B+','B-','AB+','AB-','O+','O-','ไม่ทราบ'];
+      body.innerHTML = `<div class="h-form">
+        <label>ชื่อ-นามสกุล<input id="hf-name" maxlength="60" value="${esc(health.name||'')}"></label>
+        <label>กรุ๊ปเลือด<select id="hf-blood">${blood.map(b=>`<option value="${b}"${b===(health.blood||'')?' selected':''}>${b||'เลือก'}</option>`).join('')}</select></label>
+        <label>โรคประจำตัว<textarea id="hf-conditions" maxlength="300" placeholder="เช่น เบาหวาน ความดันสูง หอบหืด">${esc(health.conditions||'')}</textarea></label>
+        <label>ยาที่ใช้ประจำ<textarea id="hf-meds" maxlength="300" placeholder="ชื่อยาและขนาดที่ใช้">${esc(health.meds||'')}</textarea></label>
+        <label>แพ้ยา / แพ้อาหาร<textarea id="hf-allergies" maxlength="300" placeholder="เช่น แพ้เพนิซิลลิน แพ้อาหารทะเล">${esc(health.allergies||'')}</textarea></label>
+        <div class="two">
+          <label>ผู้ติดต่อฉุกเฉิน (ชื่อ)<input id="hf-cname" maxlength="40" value="${esc(health.cname||'')}"></label>
+          <label>ความสัมพันธ์<input id="hf-crel" maxlength="30" placeholder="เช่น ภรรยา ลูกชาย" value="${esc(health.crel||'')}"></label>
+        </div>
+        <label>เบอร์ผู้ติดต่อฉุกเฉิน<input id="hf-cnum" type="tel" inputmode="tel" maxlength="20" value="${esc(health.cnum||'')}"></label>
+        <div class="form-msg" id="hfMsg" role="alert" style="grid-column:auto"></div>
+        <div class="h-actions"><button type="button" class="helper-btn" id="hfSave" style="background:var(--ink);color:var(--paper);border-color:var(--ink)">บันทึก</button>
+        <button type="button" class="helper-btn" id="hfCancel">ยกเลิก</button></div>
+      </div>`;
+      document.getElementById('hfCancel').addEventListener('click', ()=>{ healthEditing=false; renderHealth(); });
+      document.getElementById('hfSave').addEventListener('click', ()=>{
+        const v = id => document.getElementById('hf-'+id).value.trim();
+        const cnum = v('cnum');
+        if(cnum && (!/^[0-9+\-\s#*]{3,20}$/.test(cnum) || telNum(cnum).length<3)){
+          document.getElementById('hfMsg').textContent = 'กรุณาใส่เบอร์ผู้ติดต่อให้ถูกต้อง หรือเว้นว่างไว้';
+          return;
+        }
+        HKEYS.forEach(k=>{ health[k] = v(k); });
+        saveHealth(); healthEditing = false; renderHealth();
+      });
+    } else if(hasHealth()){
+      const cnum = telNum(health.cnum||'');
+      body.innerHTML = `<div class="health-card">${healthRows()}
+        <div class="h-actions">
+          ${cnum ? `<a class="call-btn" style="--cat-color:var(--accent-red)" href="tel:${cnum}">${callIconSvg}โทรหา ${esc(health.cname || 'ผู้ติดต่อฉุกเฉิน')}</a>` : ''}
+          <button type="button" class="helper-btn" id="hBig">แสดงตัวใหญ่</button>
+          <button type="button" class="helper-btn" id="hCopy">คัดลอกข้อความ</button>
+          <button type="button" class="helper-btn" id="hEdit">แก้ไข</button>
+          <button type="button" class="helper-btn danger-btn" id="hDel">ลบข้อมูล</button>
+        </div></div>`;
+      document.getElementById('hEdit').addEventListener('click', ()=>{ healthEditing=true; renderHealth(); });
+      document.getElementById('hBig').addEventListener('click', ()=>{
+        document.getElementById('healthBig').innerHTML = healthRows();
+        const dg = document.getElementById('healthDialog');
+        if(dg.showModal) dg.showModal(); else dg.setAttribute('open','');
+      });
+      const cp = document.getElementById('hCopy');
+      cp.addEventListener('click', ()=>{
+        copyText(healthText()).then(()=>{ cp.textContent='คัดลอกแล้ว'; }, ()=>{ cp.textContent='คัดลอกไม่ได้'; });
+        setTimeout(()=>{ cp.textContent='คัดลอกข้อความ'; }, 2500);
+      });
+      const del = document.getElementById('hDel');
+      let armed = false, timer;
+      del.addEventListener('click', ()=>{
+        if(!armed){
+          armed = true; del.textContent = 'กดอีกครั้งเพื่อยืนยันการลบ';
+          timer = setTimeout(()=>{ armed=false; del.textContent='ลบข้อมูล'; }, 4000);
+          return;
+        }
+        clearTimeout(timer);
+        health = {};
+        try{ localStorage.removeItem('thaiHealthCard'); }catch(e){}
+        renderHealth();
+      });
+    } else {
+      body.innerHTML = `<div class="health-card"><p class="fav-hint" style="margin:12px 0">กรอกกรุ๊ปเลือด โรคประจำตัว ยาที่ใช้ และประวัติแพ้ยา ไว้ล่วงหน้า เพื่อเปิดอ่านหรือยื่นให้เจ้าหน้าที่ดูได้ทันทีเมื่อเกิดเหตุ</p>
+        <div class="h-actions"><button type="button" class="helper-btn" id="hCreate">สร้างบัตรของฉัน</button></div></div>`;
+      document.getElementById('hCreate').addEventListener('click', ()=>{ healthEditing=true; renderHealth(); });
+    }
+  }
+  const healthDlg = document.getElementById('healthDialog');
+  document.getElementById('healthClose').addEventListener('click', ()=>{ if(healthDlg.close) healthDlg.close(); else healthDlg.removeAttribute('open'); });
+  healthDlg.addEventListener('click', e=>{ if(e.target===healthDlg && healthDlg.close) healthDlg.close(); });
+
+  // ---------- Preparedness checklist ----------
+  const PREP = [
+    { id:'bag', title:'ถุงยังชีพพร้อมอพยพ', color:'var(--cat-fire)', items:[
+      'น้ำดื่มสะอาด เผื่ออย่างน้อย 3 วัน (ราว 2-3 ลิตรต่อคนต่อวัน)',
+      'อาหารแห้งหรืออาหารกระป๋อง พร้อมที่เปิดกระป๋อง',
+      'ไฟฉายและถ่านสำรอง',
+      'วิทยุพกพาแบบใช้ถ่าน สำหรับฟังประกาศเมื่อไฟดับ',
+      'พาวเวอร์แบงก์และสายชาร์จ',
+      'ชุดปฐมพยาบาล (ผ้าก๊อซ ผ้าพันแผล ยาล้างแผล พลาสเตอร์)',
+      'ยาประจำตัวและยาสามัญ เผื่อ 3-7 วัน',
+      'เอกสารสำคัญ (สำเนาบัตรประชาชน ทะเบียนบ้าน กรมธรรม์) ใส่ถุงกันน้ำ',
+      'เงินสด โดยเฉพาะธนบัตรย่อย',
+      'เสื้อผ้า 1-2 ชุด เสื้อกันฝน และผ้าห่มผืนเล็ก',
+      'นกหวีดสำหรับขอความช่วยเหลือ',
+      'หน้ากากอนามัย สบู่ เจลแอลกอฮอล์ และของใช้ส่วนตัว',
+      'ของใช้สำหรับเด็ก ผู้สูงอายุ หรือสัตว์เลี้ยง (ถ้ามี)',
+      'จดเบอร์ฉุกเฉินและเบอร์ญาติลงกระดาษ เผื่อโทรศัพท์แบตหมด'] },
+    { id:'flood', title:'ก่อนน้ำท่วม', color:'var(--cat-police)', items:[
+      'ติดตามประกาศเตือนภัยจาก ปภ. กรมอุตุนิยมวิทยา และกรมชลประทาน',
+      'ยกของมีค่า เอกสาร และเครื่องใช้ไฟฟ้าขึ้นที่สูง',
+      'ย้ายรถไปจอดในที่สูงที่น้ำไม่ท่วม',
+      'รู้ตำแหน่งเบรกเกอร์และวิธีตัดไฟ ให้ทุกคนในบ้านทำเป็น',
+      'เตรียมกระสอบทรายหรือวัสดุกันน้ำ หากพื้นที่มีความเสี่ยง',
+      'เก็บน้ำดื่มและอาหารให้พอสำหรับหลายวัน',
+      'ชาร์จโทรศัพท์และพาวเวอร์แบงก์ให้เต็ม',
+      'วางแผนเส้นทางอพยพและจุดนัดพบของครอบครัว',
+      'รู้ที่ตั้งศูนย์พักพิงที่ใกล้บ้านที่สุด',
+      'วางแผนดูแลผู้สูงอายุ ผู้ป่วยติดเตียง และสัตว์เลี้ยง',
+      'ก่อนออกจากบ้าน ให้ตัดไฟและปิดวาล์วแก๊ส'] },
+    { id:'quake', title:'เตรียมบ้านรับแผ่นดินไหว', color:'var(--cat-traffic)', items:[
+      'ยึดตู้และชั้นวางสูงกับผนัง',
+      'เก็บของหนักไว้ชั้นล่าง อย่าวางไว้เหนือเตียงหรือโซฟา',
+      'หาจุดปลอดภัยในแต่ละห้อง เช่น ใต้โต๊ะที่แข็งแรง',
+      'รู้ตำแหน่งวาล์วแก๊ส วาล์วน้ำ และเบรกเกอร์',
+      'ซ้อมท่าก้มตัว หลบใต้โต๊ะ และจับไว้ กับคนในครอบครัว',
+      'วางรองเท้าและไฟฉายไว้ใกล้เตียง',
+      'ตกลงจุดนัดพบนอกอาคารกับครอบครัว'] },
+    { id:'fire', title:'ป้องกันไฟไหม้ในบ้าน', color:'var(--accent-red)', items:[
+      'ติดเครื่องตรวจจับควันและตรวจแบตเตอรี่สม่ำเสมอ',
+      'มีถังดับเพลิงขนาดเล็กและตรวจสอบวันหมดอายุ',
+      'ไม่ต่อปลั๊กพ่วงเกินกำลัง และเปลี่ยนสายไฟที่ชำรุดทันที',
+      'ทางหนีไฟและประตูไม่มีของกีดขวาง',
+      'วางแผนทางหนีอย่างน้อย 2 ทางและซ้อมกับครอบครัว',
+      'ดับเตาและถอดปลั๊กอุปกรณ์เมื่อไม่ใช้งานหรือก่อนออกจากบ้าน'] },
+  ];
+  let ticks = [];
+  try{
+    const d = JSON.parse(localStorage.getItem('thaiChecklist') || '[]');
+    if(Array.isArray(d)) ticks = d.filter(k=>typeof k==='string');
+  }catch(e){}
+  const saveTicks = () => { try{ localStorage.setItem('thaiChecklist', JSON.stringify(ticks)); }catch(e){} };
+  const totalPrep = PREP.reduce((n,g)=>n+g.items.length, 0);
+
+  function updatePrep(){
+    let done = 0;
+    PREP.forEach(g=>{
+      const c = g.items.filter((_,i)=>ticks.includes(g.id+'-'+i)).length;
+      done += c;
+      const box = document.querySelector(`[data-prep="${g.id}"]`);
+      if(!box) return;
+      box.querySelector('.g-tag').textContent = c + '/' + g.items.length;
+      box.querySelector('.prog-bar span').style.width = (c / g.items.length * 100) + '%';
+    });
+    const el = document.getElementById('prepOverall');
+    if(el) el.textContent = 'เตรียมแล้ว ' + done + ' จาก ' + totalPrep + ' รายการ';
+  }
+
+  function buildPrepSection(){
+    const section = document.createElement('section');
+    section.className = 'category-section';
+    section.id = 'cat-prep';
+    section.dataset.unit = ' หมวด';
+    section.style.marginTop = '36px';
+    section.innerHTML = `
+      <div class="category-head">
+        <span class="dot" style="background:var(--accent-red)"></span>
+        <h2>เช็กลิสต์เตรียมพร้อมภัยพิบัติ</h2>
+        <span class="count">${PREP.length} หมวด</span>
+      </div>
+      <p class="fav-hint">แตะหัวข้อเพื่อเปิดรายการ ติ๊กสิ่งที่เตรียมแล้ว ระบบจะจำสถานะไว้ในเครื่องนี้ให้</p>
+      <div class="card-grid guide-grid"></div>
+      <div class="prep-foot">
+        <span class="fav-hint" id="prepOverall"></span>
+        <button type="button" class="helper-btn" id="prepReset">ล้างเครื่องหมายทั้งหมด</button>
+      </div>`;
+    const grid = section.querySelector('.guide-grid');
+    PREP.forEach(g=>{
+      const wrap = document.createElement('div');
+      wrap.className = 'card-wrap';
+      const det = document.createElement('details');
+      det.className = 'guide';
+      det.dataset.prep = g.id;
+      det.style.setProperty('--gc', g.color);
+      det.innerHTML = `<summary><span>${esc(g.title)}</span><span class="g-tag"></span></summary>
+        <div class="g-body">
+          <div class="prog-bar"><span></span></div>
+          <ul class="chk-list">${g.items.map((t,i)=>`<li><label><input type="checkbox" data-k="${g.id}-${i}"${ticks.includes(g.id+'-'+i)?' checked':''}><span>${esc(t)}</span></label></li>`).join('')}</ul>
+        </div>`;
+      det.addEventListener('change', e=>{
+        const k = e.target.dataset && e.target.dataset.k;
+        if(!k) return;
+        ticks = e.target.checked ? ticks.concat(k) : ticks.filter(x=>x!==k);
+        saveTicks(); updatePrep();
+      });
+      wrap.appendChild(det);
+      grid.appendChild(wrap);
+    });
+    document.getElementById('panel-prep').appendChild(section);
+    const rb = section.querySelector('#prepReset');
+    let armed = false, timer;
+    rb.addEventListener('click', ()=>{
+      if(!armed){
+        armed = true; rb.textContent = 'กดอีกครั้งเพื่อยืนยัน';
+        timer = setTimeout(()=>{ armed=false; rb.textContent='ล้างเครื่องหมายทั้งหมด'; }, 4000);
+        return;
+      }
+      clearTimeout(timer); armed = false; rb.textContent = 'ล้างเครื่องหมายทั้งหมด';
+      ticks = []; saveTicks();
+      section.querySelectorAll('input[type=checkbox]').forEach(c=>{ c.checked = false; });
+      updatePrep();
+    });
+    updatePrep();
+  }
+
+  // ---------- Tabs ----------
+  let currentTab = 'home';
+  const ALL_PANELS = ['panel-home','panel-numbers','panel-guide','panel-prep','panel-mine'];
+  function applyTab(q){
+    const searching = !!q;
+    const show = searching ? ['panel-numbers','panel-guide','panel-prep'] : ['panel-' + currentTab];
+    ALL_PANELS.forEach(id=>{ document.getElementById(id).hidden = !show.includes(id); });
+    const jw = document.querySelector('.jumpnav-wrap');
+    if(jw) jw.hidden = searching;
+    document.querySelectorAll('.tab-btn').forEach(b=>{
+      if(!searching && b.dataset.tab===currentTab) b.setAttribute('aria-current','page');
+      else b.removeAttribute('aria-current');
+    });
+  }
+  function setTab(t){
+    currentTab = t;
+    const inp = document.getElementById('searchInput');
+    if(inp.value){ inp.value = ''; filterBySearch(); } else { applyTab(''); }
+    window.scrollTo({top:0, behavior:'instant'});
+  }
+  document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click', ()=>setTab(b.dataset.tab)));
+  document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click', ()=>setTab(b.dataset.go)));
+
+  // ---------- Quick call button ----------
+  const fabBtn = document.getElementById('fabBtn');
+  const fabMenu = document.getElementById('fabMenu');
+  const setFab = open => { fabMenu.hidden = !open; fabBtn.setAttribute('aria-expanded', String(open)); };
+  fabBtn.addEventListener('click', e=>{ e.stopPropagation(); setFab(fabMenu.hidden); });
+  document.addEventListener('click', e=>{ if(!document.getElementById('fab').contains(e.target)) setFab(false); });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape') setFab(false); });
+
+  // ---------- Location helper ----------
+  const locBtn = document.getElementById('locBtn');
+  const locResult = document.getElementById('locResult');
+  function copyText(t){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      return navigator.clipboard.writeText(t);
+    }
+    return new Promise((res, rej)=>{
+      const ta = document.createElement('textarea');
+      ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy') ? res() : rej(); }catch(e){ rej(e); }
+      ta.remove();
+    });
+  }
+  locBtn.addEventListener('click', ()=>{
+    if(!navigator.geolocation){
+      locResult.innerHTML = '<div class="loc-result loc-error">เบราว์เซอร์นี้ไม่รองรับการระบุตำแหน่ง</div>';
+      return;
+    }
+    locResult.innerHTML = '<div class="loc-result">กำลังหาตำแหน่ง... (กรุณากด "อนุญาต" หากเบราว์เซอร์ถาม)</div>';
+    navigator.geolocation.getCurrentPosition(pos=>{
+      const lat = pos.coords.latitude.toFixed(5), lng = pos.coords.longitude.toFixed(5);
+      const acc = Math.round(pos.coords.accuracy);
+      const url = `https://www.google.com/maps?q=${lat},${lng}`;
+      const text = `ตำแหน่งของฉัน ${lat}, ${lng} (แม่นยำประมาณ ${acc} ม.) ${url}`;
+      locResult.innerHTML = `<div class="loc-result">
+        <div class="loc-coords">${lat}, ${lng}</div>
+        <div class="loc-sub">ความแม่นยำประมาณ ${acc} เมตร · แสดงเป็นพิกัดเท่านั้น ไม่มีชื่อที่อยู่ ควรบอกจุดสังเกตรอบตัวให้เจ้าหน้าที่ร่วมด้วย</div>
+        <div class="loc-actions">
+          <button type="button" class="helper-btn" id="locCopy">คัดลอกพิกัด</button>
+          <a class="helper-btn" href="${url}" target="_blank" rel="noopener">เปิดในแผนที่</a>
+          ${navigator.share ? '<button type="button" class="helper-btn" id="locShare">ส่งให้คนอื่น</button>' : ''}
+        </div></div>`;
+      const cp = document.getElementById('locCopy');
+      cp.addEventListener('click', ()=>{
+        copyText(text).then(()=>{ cp.textContent = 'คัดลอกแล้ว'; }, ()=>{ cp.textContent = 'คัดลอกไม่ได้ ลองจดพิกัดแทน'; });
+      });
+      const sh = document.getElementById('locShare');
+      if(sh) sh.addEventListener('click', ()=>{ navigator.share({text}).catch(()=>{}); });
+    }, err=>{
+      const m = err.code===1 ? 'ไม่ได้รับอนุญาตให้ใช้ตำแหน่ง กรุณาอนุญาตในการตั้งค่าเบราว์เซอร์'
+              : err.code===3 ? 'หาตำแหน่งไม่ทันเวลา ลองกดอีกครั้งในที่โล่ง'
+              : 'ไม่สามารถระบุตำแหน่งได้ในขณะนี้';
+      locResult.innerHTML = `<div class="loc-result loc-error">${m}</div>`;
+    }, {enableHighAccuracy:true, timeout:15000, maximumAge:30000});
+  });
+
+  renderAll();
+  renderFavs();
+  applyTab('');
+  document.querySelectorAll('.category-section').forEach(s=>observer.observe(s));
+})();
+</script>
+
+</body>
+</html>
